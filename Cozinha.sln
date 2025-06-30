@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0B586366-5C16-4FD5-8EFB-03476DC32FEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedidoProdutor", "PedidoProdutor\PedidoProdutor.csproj", "{71586889-F112-400B-89E2-CB9DE83BA338}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CozinhaProdutor", "CozinhaProdutor\CozinhaProdutor.csproj", "{71586889-F112-400B-89E2-CB9DE83BA338}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Producers", "Producers", "{EBCC940C-1C78-4022-A58A-FEDE69697F36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consumers", "Consumers", "{BB7ED533-F62B-447F-A8FA-FCF1C518CEE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedidoConsumidor", "PedidoConsumidor\PedidoConsumidor.csproj", "{D6BBB13A-4BCE-427D-ACD3-B1570458C703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CozinhaConsumidor", "CozinhaConsumidor\CozinhaConsumidor.csproj", "{D6BBB13A-4BCE-427D-ACD3-B1570458C703}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{881317BF-468C-422B-AE19-AFFBD19F3891}"
 EndProject

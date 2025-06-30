@@ -19,6 +19,8 @@ namespace Infrastructure.Repositories
 
         public DbSet<Categoria> Categorias { get; set; }
 
+        public DbSet<PedidoControleCozinha> PedidosControleCozinha { get; set; }
+
         public DbSet<PedidoItem> PedidoItens { get; set; }
 
         public DbSet<Pedido> Pedidos { get; set; }
@@ -26,6 +28,7 @@ namespace Infrastructure.Repositories
         public DbSet<Produto> Produtos { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -13,6 +13,8 @@
 
         public string? DescricaoCancelamento { get; set; }
 
+        public required PedidoControleCozinha PedidoControleCozinha{get; set;}
+
         public required Usuario Usuario { get; set; }
 
         public ICollection<PedidoItem> Itens { get; set; } = [];
@@ -24,6 +26,8 @@
         Pendente,
         Aceito,
         Rejeitado,
+        Preparando,
+        Pronto,
         Cancelado
     }
 }

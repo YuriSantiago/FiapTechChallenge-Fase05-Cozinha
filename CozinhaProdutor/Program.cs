@@ -39,12 +39,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         sql => sql.EnableRetryOnFailure());
 }, ServiceLifetime.Scoped);
 
-builder.Services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
+//builder.Services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
-builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IPedidoControleCozinhaRepository, PedidoControleCozinhaRepository>();
+//builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+//builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IPedidoControleCozinhaService, PedidoControleCozinhaService>();
 
 // Adiciona a validação automática e adaptadores de cliente
 builder.Services.AddFluentValidationAutoValidation();
@@ -54,7 +55,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 //builder.Services.AddValidatorsFromAssemblyContaining<ContatoRequestValidator>();
 //builder.Services.AddValidatorsFromAssemblyContaining<RegiaoRequestValidator>();
 
-builder.WebHost.UseUrls("http://*:8080");
+//builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
@@ -69,7 +70,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
-namespace PedidoProdutor
+namespace CozinhaProdutor
 {
     public partial class Program { }
 }

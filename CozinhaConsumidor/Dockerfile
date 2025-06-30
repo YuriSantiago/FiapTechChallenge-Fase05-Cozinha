@@ -1,21 +1,20 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+# Copia todas as pastas necessárias
 COPY Core ./Core
 COPY Infrastructure ./Infrastructure
-COPY PedidoProdutor ./PedidoProdutor
+COPY CozinhaConsumidor ./CozinhaConsumidor
 
-WORKDIR /src/PedidoProdutor
+WORKDIR /src/CozinhaConsumidor
 
-RUN dotnet restore PedidoProdutor.csproj
+RUN dotnet restore CozinhaConsumidor.csproj
 RUN dotnet publish -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app .
-
-ENTRYPOINT ["dotnet", "PedidoProdutor.dll"]
+ENTRYPOINT ["dotnet", "CozinhaConsumidor.dll"]
