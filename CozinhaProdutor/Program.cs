@@ -8,7 +8,7 @@ using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
 using Prometheus;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 

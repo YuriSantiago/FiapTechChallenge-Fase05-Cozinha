@@ -1,6 +1,7 @@
 ﻿using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -14,7 +15,12 @@ namespace Infrastructure.Repositories
 
         public IList<PedidoControleCozinha> GetAllByStatus(StatusPedido statusPedido)
         {
-            return [.. _context.PedidosControleCozinha.Where(r => r.Status == statusPedido)];
+            return [.. _context.PedidosControleCozinha.Where(r => r.Status == statusPedido).Include(pcc => pcc.Pedido).ThenInclude(p => p.Itens).ThenInclude(pi => pi.Produto)];
+        }
+
+        public PedidoControleCozinha? GetByPedidoId(int pedidoId)
+        {
+            return _context.PedidosControleCozinha.Where(r => r.PedidoId == pedidoId).FirstOrDefault();
         }
 
 

@@ -13,7 +13,7 @@
 
         public string? DescricaoCancelamento { get; set; }
 
-        public required PedidoControleCozinha PedidoControleCozinha{get; set;}
+        public PedidoControleCozinha? PedidoControleCozinha{get; set;}
 
         public required Usuario Usuario { get; set; }
 

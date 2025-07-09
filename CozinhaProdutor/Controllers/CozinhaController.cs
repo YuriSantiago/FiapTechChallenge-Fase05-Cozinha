@@ -2,6 +2,7 @@
 using Core.Interfaces.Services;
 using Core.Requests.Update;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CozinhaProdutor.Controllers
@@ -31,6 +32,7 @@ namespace CozinhaProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpGet]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public IActionResult Get()
         {
             try
@@ -52,7 +54,8 @@ namespace CozinhaProdutor.Controllers
         /// <response code="400">Erro ao listar os pedidos da cozinha filtrados por status</response>
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [HttpGet("{status:StatusPedido}")]
+        [HttpGet("{status}")]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public IActionResult Get([FromRoute] StatusPedido status)
         {
             try
@@ -74,6 +77,7 @@ namespace CozinhaProdutor.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [HttpPut]
+        [Authorize(Roles = "ADMIN, FUNCIONARIO")]
         public async Task<IActionResult> AtualizarStatusPedido([FromBody] PedidoUpdateStatusRequest pedidoUpdateStatusRequest)
         {
             if (!ModelState.IsValid)

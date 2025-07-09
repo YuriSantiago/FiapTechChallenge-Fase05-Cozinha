@@ -27,7 +27,7 @@ namespace Core.Services
         }
 
         public IList<PedidoControleCozinhaDTO> GetAllByStatus(StatusPedido statusPedido)
-        {       
+        {
             var pedidosControleCozinha = _pedidoControleCozinhaRepository.GetAllByStatus(statusPedido);
             return ConvertToPedidoControleCozinhaDTO(pedidosControleCozinha);
         }
@@ -38,15 +38,20 @@ namespace Core.Services
             pedido.Status = (StatusPedido)Enum.Parse(typeof(StatusPedido), pedidoUpdateStatusRequest.Status);
             _pedidoRepository.Update(pedido);
 
-            var pedidoControleCozinha = _pedidoControleCozinhaRepository.GetById(pedidoUpdateStatusRequest.PedidoId);
-            pedidoControleCozinha.Status = (StatusPedido)Enum.Parse(typeof(StatusPedido), pedidoUpdateStatusRequest.Status);
-            _pedidoControleCozinhaRepository.Update(pedidoControleCozinha);
+            var pedidoControleCozinha = _pedidoControleCozinhaRepository.GetByPedidoId(pedidoUpdateStatusRequest.PedidoId);
+
+            if (pedidoControleCozinha is not null)
+            {
+                pedidoControleCozinha.Status = (StatusPedido)Enum.Parse(typeof(StatusPedido), pedidoUpdateStatusRequest.Status);
+                _pedidoControleCozinhaRepository.Update(pedidoControleCozinha);
+            }
+
         }
 
         private static List<PedidoControleCozinhaDTO> ConvertToPedidoControleCozinhaDTO(IList<PedidoControleCozinha> pedidosControleCozinha)
         {
             var pedidosControleCozinhaDTO = new List<PedidoControleCozinhaDTO>();
-           
+
             foreach (var pedidoControleCozinha in pedidosControleCozinha)
             {
                 var pedidosItemControleCozinhaDTO = new List<PedidoItemControleCozinhaDTO>();
@@ -58,12 +63,13 @@ namespace Core.Services
                         Nome = item.Produto.Nome,
                         Descricao = item.Produto.Descricao,
                         Quantidade = item.Quantidade
-                    }); 
+                    });
                 }
 
                 pedidosControleCozinhaDTO.Add(new PedidoControleCozinhaDTO()
                 {
                     Id = pedidoControleCozinha.Id,
+                    PedidoId = pedidoControleCozinha.PedidoId,
                     DataInclusao = pedidoControleCozinha.DataInclusao,
                     NomeCliente = pedidoControleCozinha.NomeCliente,
                     Status = pedidoControleCozinha.Status.ToString(),
