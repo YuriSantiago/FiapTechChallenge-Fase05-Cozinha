@@ -1,4 +1,4 @@
-namespace PedidoConsumidor
+namespace CozinhaConsumidor
 {
     public class Worker : BackgroundService
     {

@@ -2,7 +2,7 @@
 using Core.Requests.Update;
 using MassTransit;
 
-namespace PedidoConsumidor.Eventos
+namespace CozinhaConsumidor.Eventos
 {
     public class PedidoStatusAtualizado : IConsumer<PedidoUpdateStatusRequest>
     {

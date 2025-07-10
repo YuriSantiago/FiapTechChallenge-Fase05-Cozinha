@@ -1,8 +1,8 @@
-using PedidoConsumidor;
-using PedidoConsumidor.Eventos;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
+using CozinhaConsumidor;
+using CozinhaConsumidor.Eventos;
 using Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +15,8 @@ var configuration = builder.Configuration;
 var queueAtualizacaoStatusPedido = configuration.GetSection("MassTransit:Queues")["PedidoAtualizacaoStatusQueue"] ?? string.Empty;
 
 builder.Services.AddScoped<IPedidoControleCozinhaService, PedidoControleCozinhaService>();
-
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IPedidoControleCozinhaRepository, PedidoControleCozinhaRepository>();
-//builder.Services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
-//builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-//builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
