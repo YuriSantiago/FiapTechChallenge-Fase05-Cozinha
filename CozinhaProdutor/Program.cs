@@ -1,16 +1,16 @@
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.Services;
-//using Core.Validators;
+using Core.Validators;
+using FluentValidation;
 using FluentValidation.AspNetCore;
-//using FluentValidation;
 using Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 using MassTransit;
-using Prometheus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Prometheus;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -92,11 +92,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Registro dos validadores
-//builder.Services.AddValidatorsFromAssemblyContaining<ContatoRequestValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<RegiaoRequestValidator>();
+builder.Services.AddAuthorization();
 
-//builder.WebHost.UseUrls("http://*:8080");
+// Registro dos validadores
+builder.Services.AddValidatorsFromAssemblyContaining<PedidoUpdateStatusRequestValidator>();
+
+builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
