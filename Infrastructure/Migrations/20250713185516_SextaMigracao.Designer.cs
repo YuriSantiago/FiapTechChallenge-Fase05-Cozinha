@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FiapTechChallenge.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250626140803_QuintaMigracao")]
-    partial class QuintaMigracao
+    [Migration("20250713185516_SextaMigracao")]
+    partial class SextaMigracao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,37 @@ namespace FiapTechChallenge.Infrastructure.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Pedido", (string)null);
+                });
+
+            modelBuilder.Entity("Core.Entities.PedidoControleCozinha", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INT");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataInclusao")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("DataInclusao");
+
+                    b.Property<string>("NomeCliente")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("INT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId")
+                        .IsUnique();
+
+                    b.ToTable("PedidoControleCozinha", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.PedidoItem", b =>
@@ -195,6 +226,17 @@ namespace FiapTechChallenge.Infrastructure.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Core.Entities.PedidoControleCozinha", b =>
+                {
+                    b.HasOne("Core.Entities.Pedido", "Pedido")
+                        .WithOne("PedidoControleCozinha")
+                        .HasForeignKey("Core.Entities.PedidoControleCozinha", "PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
+                });
+
             modelBuilder.Entity("Core.Entities.PedidoItem", b =>
                 {
                     b.HasOne("Core.Entities.Pedido", "Pedido")
@@ -233,6 +275,8 @@ namespace FiapTechChallenge.Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Pedido", b =>
                 {
                     b.Navigation("Itens");
+
+                    b.Navigation("PedidoControleCozinha");
                 });
 
             modelBuilder.Entity("Core.Entities.Produto", b =>

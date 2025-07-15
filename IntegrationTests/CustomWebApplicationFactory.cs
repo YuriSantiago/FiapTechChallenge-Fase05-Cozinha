@@ -1,85 +1,94 @@
-﻿//using Core.Entities;
-//using Infrastructure.Repositories;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Mvc.Testing;
-//using Microsoft.EntityFrameworkCore;
-//using Microsoft.Extensions.DependencyInjection;
+﻿using Core.Entities;
+using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
-//namespace IntegrationTests
-//{
-//    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
-//    {
+namespace IntegrationTests
+{
+    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    {
 
-//        protected override void ConfigureWebHost(IWebHostBuilder builder)
-//        {
-//            builder.ConfigureServices(services =>
-//            {
-//                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
-//                if (descriptor != null)
-//                    services.Remove(descriptor);
+                if (descriptor != null)
+                    services.Remove(descriptor);
 
-//                services.AddDbContext<ApplicationDbContext>(options =>
-//                {
-//                    options.UseInMemoryDatabase("InMemoryDbForTesting");
-//                });
+                services.RemoveAll<IConfigureOptions<AuthenticationOptions>>();
+                services.RemoveAll<IConfigureOptions<Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions>>();
 
-//                var sp = services.BuildServiceProvider();
-//                using var scope = sp.CreateScope();
-//                var scopedServices = scope.ServiceProvider;
-//                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                services.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                });
 
-//                db.Database.EnsureDeleted();  
-//                db.Database.EnsureCreated();  
+                services.AddAuthentication("TestScheme")
+                  .AddScheme<AuthenticationSchemeOptions, JwtAuthHandlerSimulation>("TestScheme", options =>
+                  {
+                      options.TimeProvider = TimeProvider.System;
+                  });
 
-//                SeedDatabase(db).Wait();
-//            });
+                var sp = services.BuildServiceProvider();
+                using var scope = sp.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-//        }
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
 
-//        private static async Task SeedDatabase(ApplicationDbContext context)
-//        {
+                SeedDatabase(db).Wait();
+            });
 
-//            context.Contatos.RemoveRange(context.Contatos);
-//            context.Regioes.RemoveRange(context.Regioes);
-//            await context.SaveChangesAsync();
+        }
 
-//            var regiaoSP = context.Regioes.Add(new Regiao
-//            {
-//                DDD = 11,
-//                Descricao = "São Paulo",
-//                DataInclusao = DateTime.UtcNow
-//            });
+        private static async Task SeedDatabase(ApplicationDbContext context)
+        {
+            context.Pedidos.RemoveRange(context.Pedidos);
+            context.PedidosControleCozinha.RemoveRange(context.PedidosControleCozinha);
+            context.Usuarios.RemoveRange(context.Usuarios);
 
-//            var regiaoRJ = context.Regioes.Add(new Regiao
-//            {
-//                DDD = 21,
-//                Descricao = "Rio de Janeiro",
-//                DataInclusao = DateTime.UtcNow
-//            });
+            await context.SaveChangesAsync();
 
-//            await context.SaveChangesAsync();
+            var usuario = context.Usuarios.Add(new Usuario
+            {
+                Nome = "Yuri",
+                Email = "yuri@email.com",
+                Senha = "yuri",
+                Role = "ADMIN"
+            });
 
-//            context.Contatos.Add(new Contato
-//            {
-//                Nome = "Yuri",
-//                Telefone = "999999999",
-//                Email = "yuri@email.com",
-//                RegiaoId = 1,
-//                Regiao = regiaoSP.Entity
-//            });
+            await context.SaveChangesAsync();
 
-//            context.Contatos.Add(new Contato
-//            {
-//                Nome = "Yago",
-//                Telefone = "999999999",
-//                Email = "yago@email.com",
-//                RegiaoId = 2,
-//                Regiao = regiaoRJ.Entity
-//            });
+            var pedido = context.Pedidos.Add(new Pedido
+            {
+                DataInclusao = DateTime.Now,
+                UsuarioId = 1,
+                PrecoTotal = 50.00M,
+                Status = StatusPedido.Pendente,
+                TipoEntrega = "DELIVERY",
+                Usuario = usuario.Entity
+            });
 
-//            await context.SaveChangesAsync();
-//        }
+            await context.SaveChangesAsync();
 
-//    }
-//}
+            context.PedidosControleCozinha.Add(new PedidoControleCozinha
+            {
+                DataInclusao = DateTime.Now,
+                PedidoId = 1,
+                NomeCliente = "Yuri",
+                Status = StatusPedido.Pendente,
+                Pedido = pedido.Entity
+            });
+
+            await context.SaveChangesAsync();
+        }
+
+    }
+}

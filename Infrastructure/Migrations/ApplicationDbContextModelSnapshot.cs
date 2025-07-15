@@ -79,6 +79,37 @@ namespace Infrastructure.Migrations
                     b.ToTable("Pedido", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Entities.PedidoControleCozinha", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INT");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataInclusao")
+                        .HasColumnType("DATETIME")
+                        .HasColumnName("DataInclusao");
+
+                    b.Property<string>("NomeCliente")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("INT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId")
+                        .IsUnique();
+
+                    b.ToTable("PedidoControleCozinha", (string)null);
+                });
+
             modelBuilder.Entity("Core.Entities.PedidoItem", b =>
                 {
                     b.Property<int>("Id")
@@ -192,6 +223,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Core.Entities.PedidoControleCozinha", b =>
+                {
+                    b.HasOne("Core.Entities.Pedido", "Pedido")
+                        .WithOne("PedidoControleCozinha")
+                        .HasForeignKey("Core.Entities.PedidoControleCozinha", "PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
+                });
+
             modelBuilder.Entity("Core.Entities.PedidoItem", b =>
                 {
                     b.HasOne("Core.Entities.Pedido", "Pedido")
@@ -230,6 +272,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Pedido", b =>
                 {
                     b.Navigation("Itens");
+
+                    b.Navigation("PedidoControleCozinha");
                 });
 
             modelBuilder.Entity("Core.Entities.Produto", b =>
