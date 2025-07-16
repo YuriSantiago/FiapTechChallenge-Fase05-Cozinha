@@ -106,7 +106,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMetricServer();
 app.UseHttpMetrics();
-//app.UseHttpsRedirection();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
