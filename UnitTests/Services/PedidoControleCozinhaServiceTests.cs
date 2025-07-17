@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Helpers;
 using Core.Interfaces.Repositories;
 using Core.Requests.Update;
 using Core.Services;
@@ -39,7 +40,7 @@ namespace UnitTests.Services
                     PrecoTotal = 50.00M,
                     Status = StatusPedido.Pendente,
                     TipoEntrega = "DELIVERY",
-                    Usuario = new Usuario {Id = 1, Nome = "Yuri", Email = "yuri@email.com", Senha = "yuri", Role = "ADMIN"}}
+                    Usuario = new Usuario {Id = 1, Nome = "Yuri", Email = "yuri@email.com", Senha = Base64Helper.Encode("yuri"), Role = "ADMIN"}}
                }
              };
 
@@ -72,7 +73,7 @@ namespace UnitTests.Services
                     PrecoTotal = 50.00M,
                     Status = StatusPedido.Pendente,
                     TipoEntrega = "DELIVERY",
-                    Usuario = new Usuario {Id = 1, Nome = "Yuri", Email = "yuri@email.com", Senha = "yuri", Role = "ADMIN"}}
+                    Usuario = new Usuario {Id = 1, Nome = "Yuri", Email = "yuri@email.com", Senha = Base64Helper.Encode("yuri"), Role = "ADMIN"}}
                }
              };
 
@@ -109,7 +110,7 @@ namespace UnitTests.Services
                     Id = 1,
                     Nome = "Yuri",
                     Email = "yuri@email.com",
-                    Senha = "yuri",
+                    Senha = Base64Helper.Encode("yuri"),
                     Role = "ADMIN"
                 }
             };

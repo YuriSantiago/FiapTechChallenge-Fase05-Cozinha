@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Helpers;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
@@ -60,7 +61,7 @@ namespace IntegrationTests
             {
                 Nome = "Yuri",
                 Email = "yuri@email.com",
-                Senha = "yuri",
+                Senha = Base64Helper.Encode("yuri"),
                 Role = "ADMIN"
             });
 
