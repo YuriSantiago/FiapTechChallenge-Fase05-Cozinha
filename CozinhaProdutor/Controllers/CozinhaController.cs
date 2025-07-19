@@ -11,6 +11,7 @@ namespace CozinhaProdutor.Controllers
     [Route("/[controller]")]
     public class CozinhaController : ControllerBase
     {
+        // Comentário para teste de esteira
         private readonly IBus _bus;
         private readonly IConfiguration _configuration;
         private readonly IPedidoControleCozinhaService _pedidoControleCozinhaService;
