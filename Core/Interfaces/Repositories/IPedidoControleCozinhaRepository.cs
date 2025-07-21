@@ -1,5 +1,5 @@
-﻿using Core.DTOs;
-using Core.Entities;
+﻿using Core.Entities;
+using Core.Enums;
 
 namespace Core.Interfaces.Repositories
 {

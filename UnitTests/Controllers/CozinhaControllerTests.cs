@@ -1,5 +1,5 @@
 ﻿using Core.DTOs;
-using Core.Entities;
+using Core.Enums;
 using Core.Interfaces.Services;
 using Core.Requests.Update;
 using CozinhaProdutor.Controllers;

@@ -1,5 +1,5 @@
 ﻿using Core.DTOs;
-using Core.Entities;
+using Core.Enums;
 using Core.Requests.Update;
 
 namespace Core.Interfaces.Services

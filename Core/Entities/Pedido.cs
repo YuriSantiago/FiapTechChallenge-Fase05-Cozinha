@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using Core.Enums;
+
+namespace Core.Entities
 {
     public class Pedido : EntityBase
     {
@@ -21,13 +23,4 @@
 
     }
 
-    public enum StatusPedido
-    {
-        Pendente,
-        Aceito,
-        Rejeitado,
-        Preparando,
-        Pronto,
-        Cancelado
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Enums;
 using Core.Helpers;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;

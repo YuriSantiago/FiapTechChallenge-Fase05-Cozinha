@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using Core.Enums;
+
+namespace Core.Entities
 {
     public class PedidoControleCozinha : EntityBase
     {
